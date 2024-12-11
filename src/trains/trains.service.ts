@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTrainDto } from './dto/create-train.dto';
 import { UpdateTrainDto } from './dto/update-train.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Train } from './entities/train.entity';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class TrainsService {
+  constructor(
+    @InjectRepository(Train) private trainRepository: Repository<Train>,
+  ) {}
+
   create(createTrainDto: CreateTrainDto) {
-    return 'This action adds a new train';
+    return this.trainRepository.save(createTrainDto);
   }
 
-  findAll() {
-    return `This action returns all trains`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} train`;
+  findAll(name: string) {
+    const searchCriteria: FindOptionsWhere<Train> = {
+      name: name ? name : undefined,
+    };
+    return this.trainRepository.find({ where: searchCriteria });
   }
 
   update(id: number, updateTrainDto: UpdateTrainDto) {
-    return `This action updates a #${id} train`;
+    return this.trainRepository.update(id, updateTrainDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} train`;
+    return this.trainRepository.delete(id);
   }
 }

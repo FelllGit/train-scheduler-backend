@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { config as dotenvConfig } from 'dotenv';
+import { JwtStrategy } from './jwt.strategy';
 
 dotenvConfig({ path: '.env' });
 const secret = process.env.JWT_SECRET;
@@ -17,7 +18,7 @@ const expiresIn = process.env.JWT_EXPIRATION;
       signOptions: { expiresIn: expiresIn },
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService],
 })

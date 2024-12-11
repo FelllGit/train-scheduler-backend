@@ -10,8 +10,8 @@ import {
 } from 'typeorm';
 import { Train } from '../../trains/entities/train.entity';
 
-@Entity('trains_shedules')
-@Index(['from', 'to', 'sheduledDate'])
+@Entity('trains_schedules')
+@Index(['from', 'to', 'scheduledDate'])
 export class TrainsShedule {
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,9 +25,13 @@ export class TrainsShedule {
   to: string;
 
   @Column()
-  sheduledDate: Date;
+  @Index()
+  scheduledDate: Date;
 
-  @ManyToOne(() => Train, (train) => train.trainsShedules, {
+  @Column()
+  arrivalTime: Date;
+
+  @ManyToOne(() => Train, (train) => train.trainsSchedules, {
     onDelete: 'CASCADE', // Каскадне видалення
   })
   @JoinColumn({ name: 'train_id' })
