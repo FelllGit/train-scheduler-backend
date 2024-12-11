@@ -13,18 +13,24 @@ import { TrainsSchedulesService } from './trains-schedules.service';
 import { CreateTrainsSheduleDto } from './dto/create-trains-shedule.dto';
 import { UpdateTrainsSheduleDto } from './dto/update-trains-shedule.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { Roles } from '../decorators/roles.decorator';
+import { UserRole } from '../users/entities/user.entity';
+import { RolesGuard } from '../guards/role.guard';
 
 @Controller('trains-schedules')
 export class TrainsSchedulesController {
   constructor(private readonly trainsShedulesService: TrainsSchedulesService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Roles(UserRole.ADMIN)
+  @UseGuards(RolesGuard)
   @Post()
   create(@Body() createTrainsSheduleDto: CreateTrainsSheduleDto) {
     return this.trainsShedulesService.create(createTrainsSheduleDto);
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll(
     @Query('from') from: string,
     @Query('to') to: string,
@@ -35,6 +41,8 @@ export class TrainsSchedulesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Roles(UserRole.ADMIN)
+  @UseGuards(RolesGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -44,6 +52,8 @@ export class TrainsSchedulesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Roles(UserRole.ADMIN)
+  @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.trainsShedulesService.remove(+id);
