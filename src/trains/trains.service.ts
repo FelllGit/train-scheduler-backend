@@ -3,7 +3,7 @@ import { CreateTrainDto } from './dto/create-train.dto';
 import { UpdateTrainDto } from './dto/update-train.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Train } from './entities/train.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TrainsService {
@@ -16,10 +16,7 @@ export class TrainsService {
   }
 
   findAll(name: string) {
-    const searchCriteria: FindOptionsWhere<Train> = {
-      name: name ? name : undefined,
-    };
-    return this.trainRepository.find({ where: searchCriteria });
+    return this.trainRepository.find({ where: { name: name } });
   }
 
   update(id: number, updateTrainDto: UpdateTrainDto) {

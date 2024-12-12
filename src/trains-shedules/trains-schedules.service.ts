@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Between, FindOptionsWhere, Repository } from 'typeorm';
 import { Train } from '../trains/entities/train.entity';
 import { endOfDay, startOfDay } from 'date-fns';
+import { FindAllQueryDto } from './dto/find-all-query.dto';
 
 @Injectable()
 export class TrainsSchedulesService {
@@ -35,7 +36,8 @@ export class TrainsSchedulesService {
     return this.trainsScheduleRepository.save(schedule);
   }
 
-  findAll(from: string, to: string, scheduledDate: string, trainId: number) {
+  findAll(findAllQueryDto: FindAllQueryDto) {
+    const { from, to, scheduledDate, trainId } = findAllQueryDto;
     const date = new Date(scheduledDate);
     const startOfTheDay = startOfDay(date);
     const endOfTheDay = endOfDay(date);

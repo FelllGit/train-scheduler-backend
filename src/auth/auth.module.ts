@@ -5,17 +5,21 @@ import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { config as dotenvConfig } from 'dotenv';
 import { JwtStrategy } from './jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 dotenvConfig({ path: '.env' });
-const secret = process.env.JWT_SECRET;
-const expiresIn = process.env.JWT_EXPIRATION;
 @Module({
   imports: [
     UsersModule,
-    JwtModule.register({
-      global: true,
-      secret: secret,
-      signOptions: { expiresIn: expiresIn },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: configService.get<string>('JWT_EXPIRATION'),
+        },
+      }),
+      inject: [ConfigService],
     }),
   ],
   providers: [AuthService, JwtStrategy],

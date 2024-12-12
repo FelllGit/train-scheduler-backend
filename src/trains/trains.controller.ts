@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TrainsService } from './trains.service';
 import { CreateTrainDto } from './dto/create-train.dto';
@@ -31,8 +32,11 @@ export class TrainsController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateTrainDto: UpdateTrainDto) {
-    return this.trainsService.update(+id, updateTrainDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTrainDto: UpdateTrainDto,
+  ) {
+    return this.trainsService.update(id, updateTrainDto);
   }
 
   @UseGuards(JwtAuthGuard)
