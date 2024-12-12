@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TrainsShedule } from '../../trains-schedules/entities/trains-schedule.entity';
+import { TrainsSchedule } from '../../trains-schedules/entities/trains-schedule.entity';
 
 @Entity('trains')
 export class Train {
@@ -18,8 +18,8 @@ export class Train {
   @Index()
   name: string;
 
-  @OneToMany(() => TrainsShedule, (trainsShedule) => trainsShedule.train)
-  trainsSchedules: TrainsShedule[];
+  @OneToMany(() => TrainsSchedule, (trainsShedule) => trainsShedule.train)
+  trainsSchedules: TrainsSchedule[];
 
   @CreateDateColumn({
     type: 'timestamp',

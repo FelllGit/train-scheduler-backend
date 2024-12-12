@@ -12,7 +12,7 @@ import { Train } from '../../trains/entities/train.entity';
 
 @Entity('trains_schedules')
 @Index(['from', 'to', 'scheduledDate'])
-export class TrainsShedule {
+export class TrainsSchedule {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -25,7 +25,7 @@ export class TrainsShedule {
   to: string;
 
   @Column()
-  sheduledDate: Date;
+  scheduledDate: Date;
 
   @ManyToOne(() => Train, (train) => train.trainsSchedules, {
     onDelete: 'CASCADE', // Каскадне видалення

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTrainsSheduleDto } from './dto/create-trains-shedule.dto';
 import { UpdateTrainsSheduleDto } from './dto/update-trains-shedule.dto';
-import { TrainsShedule } from './entities/trains-schedule.entity';
+import { TrainsSchedule } from './entities/trains-schedule.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, FindOptionsWhere, Repository } from 'typeorm';
 import { Train } from '../trains/entities/train.entity';
@@ -11,8 +11,8 @@ import { FindAllQueryDto } from './dto/find-all-query.dto';
 @Injectable()
 export class TrainsSchedulesService {
   constructor(
-    @InjectRepository(TrainsShedule)
-    private trainsScheduleRepository: Repository<TrainsShedule>,
+    @InjectRepository(TrainsSchedule)
+    private trainsScheduleRepository: Repository<TrainsSchedule>,
     @InjectRepository(Train)
     private trainRepository: Repository<Train>,
   ) {}
@@ -42,7 +42,7 @@ export class TrainsSchedulesService {
     const startOfTheDay = startOfDay(date);
     const endOfTheDay = endOfDay(date);
 
-    const searchCriteria: FindOptionsWhere<TrainsShedule> = {
+    const searchCriteria: FindOptionsWhere<TrainsSchedule> = {
       from,
       to,
       scheduledDate: Between(startOfTheDay, endOfTheDay),
