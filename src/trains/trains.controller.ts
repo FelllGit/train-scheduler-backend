@@ -17,11 +17,11 @@ import { RolesGuard } from '../guards/role.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
 
+@UseGuards(JwtAuthGuard)
 @Controller('trains')
 export class TrainsController {
   constructor(private readonly trainsService: TrainsService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
   @Post()
@@ -30,12 +30,10 @@ export class TrainsController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   findAll(@Query('name') name: string) {
     return this.trainsService.findAll(name);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
   @Put(':id')
@@ -43,7 +41,6 @@ export class TrainsController {
     return this.trainsService.update(+id, updateTrainDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
   @Delete(':id')

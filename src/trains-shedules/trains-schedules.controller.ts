@@ -17,11 +17,11 @@ import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
 import { RolesGuard } from '../guards/role.guard';
 
-@Controller('trains-schedules')
+@UseGuards(JwtAuthGuard)
+@Controller('train-schedules')
 export class TrainsSchedulesController {
   constructor(private readonly trainsShedulesService: TrainsSchedulesService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
   @Post()
@@ -30,7 +30,6 @@ export class TrainsSchedulesController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   findAll(
     @Query('from') from: string,
     @Query('to') to: string,
@@ -40,7 +39,6 @@ export class TrainsSchedulesController {
     return this.trainsShedulesService.findAll(from, to, scheduledDate, trainId);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
   @Patch(':id')
@@ -51,7 +49,6 @@ export class TrainsSchedulesController {
     return this.trainsShedulesService.update(+id, updateTrainsSheduleDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
   @Delete(':id')
