@@ -4,6 +4,7 @@ import { UpdateTrainDto } from './dto/update-train.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Train } from './entities/train.entity';
 import { Repository } from 'typeorm';
+import { FindAllQueryDto } from './dto/find-all-query.dto';
 
 @Injectable()
 export class TrainsService {
@@ -15,7 +16,8 @@ export class TrainsService {
     return this.trainRepository.save(createTrainDto);
   }
 
-  findAll(name: string) {
+  findAll(findAllQueryDto: FindAllQueryDto) {
+    const { name } = findAllQueryDto;
     return this.trainRepository.find({ where: { name: name } });
   }
 

@@ -17,6 +17,7 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { FindAllQueryDto } from './dto/find-all-query.dto';
 
 @Controller('trains-schedules')
+@UseGuards(JwtAuthGuard)
 export class TrainsSchedulesController {
   constructor(
     private readonly trainsSchedulesService: TrainsSchedulesService,

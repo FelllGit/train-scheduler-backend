@@ -9,6 +9,7 @@ import {
   UseGuards,
   Query,
   ParseIntPipe,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TrainsService } from './trains.service';
 import { CreateTrainDto } from './dto/create-train.dto';
@@ -17,6 +18,7 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RolesGuard } from '../guards/role.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { FindAllQueryDto } from './dto/find-all-query.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('trains')
@@ -31,8 +33,10 @@ export class TrainsController {
   }
 
   @Get()
-  findAll(@Query('name') name: string) {
-    return this.trainsService.findAll(name);
+  findAll(
+    @Query(new ValidationPipe({ transform: true })) query: FindAllQueryDto,
+  ) {
+    return this.trainsService.findAll(query);
   }
 
   @Roles(UserRole.ADMIN)

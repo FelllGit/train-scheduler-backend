@@ -28,12 +28,12 @@ export class CreateTrainsSheduleDto {
   })
   @IsNotEmpty()
   @IsString()
-  scheduledDate: Date;
+  scheduledDate: string;
 
   @ApiProperty({
     description: 'Arrival time',
   })
   @IsNotEmpty()
   @IsString()
-  arrivalTime: Date;
+  arrivalTime: string;
 }
