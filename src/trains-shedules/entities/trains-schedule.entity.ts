@@ -25,11 +25,7 @@ export class TrainsShedule {
   to: string;
 
   @Column()
-  @Index()
-  scheduledDate: Date;
-
-  @Column()
-  arrivalTime: Date;
+  sheduledDate: Date;
 
   @ManyToOne(() => Train, (train) => train.trainsSchedules, {
     onDelete: 'CASCADE', // Каскадне видалення
