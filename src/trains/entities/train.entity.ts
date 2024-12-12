@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TrainsShedule } from '../../trains-shedules/entities/trains-schedule.entity';
+import { TrainsShedule } from '../../trains-schedules/entities/trains-schedule.entity';
 
 @Entity('trains')
 export class Train {

@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TrainsModule } from './trains/trains.module';
-import { TrainsSchedulesModule } from './trains-shedules/trains-schedules.module';
+import { TrainsSchedulesModule } from './trains-schedules/trains-schedules.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm, { connectionSource } from './config/typeorm';
