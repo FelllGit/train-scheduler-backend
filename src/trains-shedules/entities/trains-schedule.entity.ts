@@ -3,23 +3,35 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TrainsShedule } from '../../trains-shedules/entities/trains-schedule.entity';
+import { Train } from '../../trains/entities/train.entity';
 
-@Entity('trains')
-export class Train {
+@Entity('trains_schedules')
+@Index(['from', 'to', 'scheduledDate'])
+export class TrainsShedule {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   @Index()
-  name: string;
+  from: string;
 
-  @OneToMany(() => TrainsShedule, (trainsShedule) => trainsShedule.train)
-  trainsSchedules: TrainsShedule[];
+  @Column()
+  @Index()
+  to: string;
+
+  @Column()
+  sheduledDate: Date;
+
+  @ManyToOne(() => Train, (train) => train.trainsSchedules, {
+    onDelete: 'CASCADE', // Каскадне видалення
+  })
+  @JoinColumn({ name: 'train_id' })
+  train: Train;
 
   @CreateDateColumn({
     type: 'timestamp',

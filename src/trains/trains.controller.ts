@@ -1,32 +1,45 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  UseGuards,
+  Query,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { TrainsService } from './trains.service';
 import { CreateTrainDto } from './dto/create-train.dto';
 import { UpdateTrainDto } from './dto/update-train.dto';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @Controller('trains')
 export class TrainsController {
   constructor(private readonly trainsService: TrainsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createTrainDto: CreateTrainDto) {
     return this.trainsService.create(createTrainDto);
   }
 
   @Get()
-  findAll() {
-    return this.trainsService.findAll();
+  findAll(@Query('name') name: string) {
+    return this.trainsService.findAll(name);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.trainsService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTrainDto: UpdateTrainDto,
+  ) {
+    return this.trainsService.update(id, updateTrainDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTrainDto: UpdateTrainDto) {
-    return this.trainsService.update(+id, updateTrainDto);
-  }
-
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.trainsService.remove(+id);

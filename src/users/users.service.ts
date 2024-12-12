@@ -18,7 +18,11 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  findOne(email: string): Promise<User | undefined> {
+  findOneById(id: number): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { id: id } });
+  }
+
+  findOneByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { email: email } });
   }
 }
