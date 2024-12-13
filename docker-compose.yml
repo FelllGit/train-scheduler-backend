@@ -14,5 +14,24 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  nestjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_container
+    restart: always
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    command: >
+      sh -c "
+      npm install &&
+      npm run migration:run &&
+      npm run start:prod
+      "
+
 volumes:
   postgres_data:
