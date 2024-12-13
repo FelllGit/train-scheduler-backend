@@ -28,7 +28,6 @@ services:
       - "3000:3000"
     command: >
       sh -c "
-      dockerize -wait tcp://postgres:5432 -timeout 30s &&
       npm install &&
       npm run migration:run &&
       npm run start:prod

@@ -12,11 +12,6 @@ WORKDIR /app
 # Set production environment
 ENV NODE_ENV="production"
 
-# Install dependencies for production
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl && \
-    curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz | tar -xz -C /usr/local/bin && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
@@ -35,6 +30,7 @@ COPY . .
 # Build application
 RUN npm run build
 
+
 # Final stage for app image
 FROM base
 
@@ -43,4 +39,4 @@ COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run", "start" ]
