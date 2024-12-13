@@ -20,6 +20,8 @@ services:
       dockerfile: Dockerfile
     container_name: nestjs_container
     restart: always
+    env_file:
+      - .env
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     depends_on:
